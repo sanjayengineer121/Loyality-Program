@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+<!--
+<button type="button" class="btn btn-secondary">Secondary</button>
+<button type="button" class="btn btn-danger">Danger</button>
+<button type="button" class="btn btn-info">Info</button>
+<button type="button" class="btn btn-dark">Dark</button>
+<button type="button" class="btn btn-warning" id="Email"><a  href="/email">Email Login</a></button>
+-->
+<button type="button" class="btn btn-dark" id="PRAMOTION"><a href="/pramotion" style="text-decoration: none;">PRAMOTION</a></button>
+
+<button type="button" class="btn btn-success" id="whatsapp"><a  href="/whatsapp" style="text-decoration: none;">WhatsApp QR</a></button>
+
+<button type="button" class="btn btn-success" id="exportexcel">EXPORT CSV</button>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+PAYMENT QR GEN.
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">PAYMENT METHOD</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+          <h5>SELECT PAY METHOD</h5>
+          
+          <p>CLICK <button type="button" class="btn btn-info" id="Email"><a  href="/upi" style="text-decoration: none;">UPI</a></button> For <img src="static\img\upi.png" width="40px" height="30px"> PAYMENT QR</p>
+          <p>CLICK <button type="button" class="btn btn-warning" id="Email"><a  href="/paymentbank" style="text-decoration: none;">BANK</a></button> For <img src="static\img\bank.png" width="40px" height="30px"> PAYMENT QR</p>
+          <hr>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  PAY SETUP
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">PAYMENT SETUP</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <form class="ui form" action="/PAYSETUP" method="post">
+          <div class="field">
+              <label>Bank A/C Number</label>
+              <input type="text" name="bank" required autofocus placeholder="2033xxxxxxx" maxlength="30"><br>
+              <label>Bank IFSC Code</label>
+              <input type="text" name="ifsc" required autofocus placeholder="SBINXXXXXX" maxlength="10"><br>
+              <label>Owner Name (Payee Name)</label>
+              <input type="text" name="payee" required autofocus placeholder="SANXXX YADAV" maxlength="30"><br>
+              <label>UPI ID</label>
+              <input type="text" name="upiid" required autofocus placeholder="ENSOWT@ICICI" maxlength="30"><br>
+          </div>
+      
+      
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button class="btn btn-warning" type="button"><a href="/paysetup" style="text-decoration: none;">PAY DATA</a></button>
+        <button class="btn btn-primary" type="submit" value="/PAYSETUP">SAVE</button>
+        
+        </button>
+      </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="button" class="btn btn-secondary" id="Sales"><a  href="/data" style="text-decoration: none;">More Option</a></button>
+
+
+<table id="data"  class="content-table">
+  <thead>
+    <tr>
+      <th>sno</th>
+      <th>Mobile</th>
+      <th>Msg</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  
+    <tbody>
+    <tr>
+      {% for TODO in DATA %}
+      <td>{{TODO.sno}}</td>
+      <td>{{TODO.Mobile}}</td>
+      <td>{{TODO.Msg}}</td>
+      <td>{{TODO.date}}</td>
+      
+    </tr>
+  </thead>
+  
+  </tbody>
+  {% endfor %}
+</table>
+{% endblock %}
+
+
+
+{% block scripts %}
+<script>
+  $(document).ready(function () {
+    $('#data').DataTable({
+      ajax: '/api/data',
+      serverSide: true,
+      columns: [
+        {data: 'sno'},
+        {data: 'Mobile'},
+        {data: 'Msg', orderable: false},
+        {data: 'date'}
+      ],
+    });
+  });
+</script>
+
+{% endblock %}
+
+
+

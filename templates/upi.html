@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+  <div class="card" style="width: 25rem;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>UPI</title>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <title>UPI</title>
+      <style>
+     .card {
+          margin: 0 auto;
+          float: none;
+          margin-bottom: 10px;
+          margin-top: 60px;
+  }
+      </style>
+    </head>
+    <body>
+        <form class="ui form" action="/upiqr" method="post">
+        <div class="field">
+    <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="https://logodix.com/logo/1763566.png" alt="Card image cap">
+    <div class="card-body">
+      <h6 class="card-title">Create shareable UPI Payment links!</h6>
+      <label>Mobile No</label>
+        <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile..."><br>
+        <label>Payee VPA:</label>
+        <input type="text" name="pa" class="form-control" placeholder="Enter UPI ID..."><br>
+        <label>Payee Name:</label>
+        <input type="text" name="pn" class="form-control" placeholder="Enter Payee Name..."><br>
+        <label>Amount :</label>
+        <input type="text" name="am" class="form-control" placeholder="Enter Trans. Ref_ID..."><br>
+        <label>Transaction Reference ID</label>
+        <input type="text" name="tr" class="form-control" placeholder="Enter Message..."><br>
+        <label>Transaction Note:</label>
+        <input type="text" name="tn" class="form-control" placeholder="Enter Transaction Note..."><br>
+        <button  class="btn btn-primary" type="submit">Generate Payment QR</button>
+        <a class="btn btn-primary p-0 px-3 py-2 w-100" href="upi://pay/?pa=6388574919@paytm&pn=Sanjay%20Yadav&cu=INR&am=200">Pay</a>
+    </form>
+      <br><br>
+     <div class="desc link"> <a href="https://github.com/sanjayengineer121">Made with<span class="love">❤️</span> by Er Sanjay</a></div>
+    </div>
+  </div>
+  </form>
+  <script src="static/js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+          <div class="text-center">Scan this QR to Pay directly from your mobile.</div>
+            </div>
+            <img class="card-img-top" src="https://miro.medium.com/max/875/1*BOrZtZYRwGEe8NlavcSzRA.png" alt="Card image cap">
+        </div>
+    
+        <script>
+    
+            const createQueryParams = params =>
+                Object.keys(params)
+                    .map(k => `${k}=${encodeURI(params[k])}`)
+                    .join('&');
+    
+            function upi() {
+                var baseurl = "upi://pay?";
+                var mam = 'null';
+                var cu = 'INR';
+                const mobile = document.getElementById("mobile").value;
+                var pa = document.getElementById("pa").value;
+                var pn = document.getElementById("pn").value;
+                var am = document.getElementById("am").value;
+                var tr = document.getElementById("tr").value;
+                var tn = document.getElementById("tn").value;
+                var data = { 'pa': pa, 'pn': pn, 'am': am, 'tr': tr, 'tn': tn, 'mam': mam, 'cu': cu};
+                const querystring = baseurl + createQueryParams(data);
+                console.log(querystring);
+                
+                $.ajax({
+                type: "POST",
+                url: "/",
+                data: {querystring:querystring, mobile:mobile}
+                }).done(function( res ) {
+                //TODO
+                var response = JSON.parse(res);
+                console.log(response);
+                if (response.status == 'success') {
+                    $('#alert-success').show();
+                    $('#response').show();
+                    $('#upiLink').html(response.upiLink);
+                    $('#shortURL a').html(response.shortURL);
+                    $('#shortURL a').attr("href",response.shortURL);
+                    var loc = "https://api.qrserver.com/v1/create-qr-code/?data="+encodeURIComponent(response.upiLink)+"&amp;size=100x100";
+                    $('#qr img').attr("src",loc);
+                } else {
+                    $('#alert-danger').show();
+                }
+                });
+            }
+    
+        </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation" style="background-color: rgb(37, 211, 102) !important;">
+  <i class="nav-link active">Version: 1.0.0.0</i>
+  <div class="container">
+    <a class="navbar-brand" href="/">MG-REWARDS</a>
+    <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Conversion</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/DATA">Customer Transaction</a>
+        </li>
+
+           <li class="nav-item"> 
+          <!-- <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#examplesale_message" data-bs-whatever="@mdo">Sale Message</a> -->
+          <a class="nav-link active" href="/message-template">Sale Message</a>
+        </li>
+
+        <li class="nav-item">
+          
+          <a class="nav-link active" href="/add">Add Sale(POINTS)</a>
+  
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" href="/redeem">Redeem Point</a>
+        </li>
+       
+      </ul>
+    
+    </div>
+  </div>
+</nav>
+
+<main class="container-fluid">
+ 
+  <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+    
+    <!-- <img class="me-3" src="/docs/5.1/assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38"> -->
+    <div class="lh-1">
+      <h1 class="h6 mb-0 text-white lh-1">Dashboard</h1>
+     
+    </div>
+  </div>
+
+</main>
+
+{% extends "base1.html" %}
+
+{% block content %}
+
+<button type="button" class="btn btn-success" id="exportexcel">Export Excel Sheet</button>
+
+<table id="data"  class="content-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>POINT ADD</th>
+      <th>CURRENT POINT</th>
+      <th>Customer ID</th>
+      <th>CREATED DATE</th>
+      <th>POINT TYPE</th>
+      <th>BILL AMOUNT</th>
+      <th>INVOICE NO</th>
+      <th>REMARK</th>
+    </tr>
+
+  </thead>
+  
+    <tbody>
+      <tr>
+        <td>{{ customer_point_transaction.id}}</td>
+        <td>{{ customer_point_transaction.point_add}}</td>
+        <td>{{ customer_point_transaction.current_points}}</td>
+        <td>{{ customer_point_transaction.customer_details_id}}</td>
+        <td>{{ customer_point_transaction.created_on}}</td>
+        <td>{{ customer_point_transaction.point_type}}</td>
+        <td>{{ customer_point_transaction.bill_amount}}</td>
+        <td>{{ customer_point_transaction.invoice_no}}</td>
+        <td>{{ customer_point_transaction.remark}}</td>
+      </tr>
+  </thead>
+  
+  </tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        ajax: '/api/data2',
+        columns: [
+        {data: 'id'},
+          {data: 'point_add'},
+          {data: 'current_points'},
+          {data: 'customer_details_id',orderable: false, searchable: true},
+          {data: 'created_on'},
+          {data: 'point_type', orderable: false, searchable: false},
+          {data: 'bill_amount'},
+          {data: 'invoice_no'},
+          {data: 'remark'}
+        ],
+      });
+    });
+  </script>
+{% endblock %}
