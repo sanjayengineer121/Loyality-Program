@@ -24,3 +24,7 @@ Loyalty programs, sponsored by retailers and other businesses, offer rewards, di
 - 🌱 ** Redeem Point by entering mobile number because of mobile number will be unique of all customer**
 
   <img src="https://github.com/sanjayengineer121/Loyality-Program/blob/main/static/img/Screenshot%20(516).png">
+
+- 🌱 ** add Point by entering mobile number because of mobile number will be unique of all customer and voucher number is mandatory**
+
+<img src="https://github.com/sanjayengineer121/Loyality-Program/blob/main/static/img/Screenshot%20(515).png">
